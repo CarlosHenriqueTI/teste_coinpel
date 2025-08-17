@@ -1,7 +1,12 @@
-<?php
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\TripController;
+use App\Http\Controllers\UserController;
 
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+    // ... outras rotas do Breeze
+    Route::resource('drivers', DriverController::class);
+    Route::resource('vehicles', VehicleController::class);
+    Route::resource('trips', TripController::class);
+    Route::resource('users', UserController::class);
 });
