@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/UserController.php
 
 namespace App\Http\Controllers;
 
@@ -34,20 +33,28 @@ class UserController extends Controller
             'must_change_password' => true, // Força a troca de senha no primeiro login
         ]);
 
-        // Opcional: Você pode exibir a senha temporária para o admin ou enviá-la por e-mail
-        // Por agora, vamos apenas redirecionar com uma mensagem de sucesso.
         return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso. A senha temporária é: ' . $temporaryPassword);
     }
 
     public function update(Request $request, User $user)
     {
-        // A lógica de atualização permanece a mesma
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
         ]);
 
-        $user->update($request->only('name', 'email'));
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        if ($request->filled('password')) {
+            $user->update([
+                'password' => Hash::make($request->password),
+                'must_change_password' => false
+            ]);
+        }
 
         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }

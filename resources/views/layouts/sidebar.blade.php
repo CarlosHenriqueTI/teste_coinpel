@@ -1,5 +1,5 @@
 {{-- resources/views/layouts/sidebar.blade.php --}}
-<div class="d-flex flex-column flex-shrink-0 p-3 vh-100" style="width: 280px; background-color: #4A1D7B;">
+<div class="d-flex flex-column flex-shrink-0 p-3 vh-100" style="width: 200px; background-color: #593E75;">
     {{-- Logo --}}
     <a href="{{ route('dashboard') }}" class="d-flex justify-content-center align-items-center mb-3 p-2 text-white text-decoration-none">
         {{-- Usamos um filtro CSS para tornar o logo original branco, uma solução flexível --}}

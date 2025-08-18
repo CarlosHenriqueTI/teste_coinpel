@@ -10,7 +10,7 @@
     <style>
         /* Estilos personalizados para cores e alinhamento */
         .btn-custom-purple {
-            background-color: #4A1D7B;
+            background-color: #593E75;
             color: white;
         }
         .btn-custom-purple:hover {

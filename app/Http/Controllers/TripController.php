@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/TripController.php
 
 namespace App\Http\Controllers;
 
@@ -10,12 +9,8 @@ use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // Usamos with() para carregar os dados do motorista e veículo e evitar múltiplas queries (N+1 problem)
         $trips = Trip::with(['driver', 'vehicle'])->latest()->paginate(10);
         return view('trips.index', compact('trips'));
     }

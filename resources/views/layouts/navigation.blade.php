@@ -3,7 +3,7 @@
     <div class="container-fluid">
         {{-- Botões de Ação --}}
         <div>
-            <button class="btn fw-bold" style="background-color: #4A1D7B; color: white;">+ Adicionar usuário</button>
+            <button class="btn fw-bold" style="background-color: #593E75; color: white;">+ Adicionar usuário</button>
             <button class="btn btn-outline-secondary ms-2">Filtrar</button>
         </div>
 
