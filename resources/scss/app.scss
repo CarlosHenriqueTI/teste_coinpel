@@ -1,1 +1,37 @@
+// Importar Bootstrap (warnings são normais e podem ser ignoradas)
 @import 'bootstrap/scss/bootstrap';
+
+// Variáveis personalizadas
+$primary-color: #4A1D7B;
+$primary-color-hover: #3a1560; // Cor já calculada para evitar warnings
+
+// Estilos personalizados
+.nav-pills .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-primary {
+    background-color: $primary-color;
+    border-color: $primary-color;
+}
+
+.btn-primary:hover {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+}
+
+// Melhorar a aparência da sidebar
+.sidebar {
+    box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+}
+
+// Estilos para tabelas
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+// Melhorar offcanvas
+.offcanvas {
+    box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+}
