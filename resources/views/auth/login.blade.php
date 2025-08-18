@@ -10,11 +10,11 @@
     <style>
         /* Estilos personalizados para cores e alinhamento */
         .btn-custom-purple {
-            background-color: #4A1D7B;
+            background-color: #593E75;
             color: white;
         }
         .btn-custom-purple:hover {
-            background-color: #3a1761;
+            background-color: #4A356A;
             color: white;
         }
 
@@ -24,7 +24,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden; /* Garante que as imagens não ultrapassem a coluna */
-            background-color: #4A1D7B; /* Cor de fundo sólida para tingir as imagens */
+            background-color: #593E75; /* Cor de fundo sólida para tingir as imagens */
         }
 
         /* Estilo base para todos os elementos da ilustração */

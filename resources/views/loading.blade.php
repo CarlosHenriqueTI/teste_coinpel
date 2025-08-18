@@ -89,7 +89,7 @@
                 window.location.href = '{{ route("login") }}'; 
             }, 800); // 800ms, a mesma duração da animação fadeOut
 
-        }, 3000); // 3000ms = 3 segundos
+        }, 4000); // 4000ms = 4 segundos
     </script>
 </body>
 </html>

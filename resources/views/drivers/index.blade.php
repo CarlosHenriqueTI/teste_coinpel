@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1>Motoristas</h1>
-        <button class="btn text-white" style="background-color: #4A1D7B;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDriver">
+        <button class="btn text-white" style="background-color: #593E75;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDriver">
             + Adicionar motorista
         </button>
     </div>
@@ -76,7 +76,7 @@
                            id="cpf" name="cpf" value="{{ old('cpf') }}" required>
                     @error('cpf')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <button type="submit" class="btn text-white" style="background-color: #4A1D7B;">
+                <button type="submit" class="btn text-white" style="background-color: #593E75;">
                     Salvar
                 </button>
                 <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="offcanvas">

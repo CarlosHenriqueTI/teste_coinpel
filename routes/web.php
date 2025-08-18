@@ -7,24 +7,28 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Página inicial mostra loading e depois redireciona para login
 Route::get('/', function () {
     return view('loading');
-})->name('loading');
+});
 
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
+// Dashboard redireciona para lista de usuários
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('users.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'force.password.change'])->group(function () {
+    // Rotas do Perfil (geradas pelo Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Rotas de recursos para o CRUD
+    // Rota para mudança obrigatória de senha
+    Route::get('/change-password', function () {
+        return view('auth.change-password');
+    })->name('change-password');
+    
+    // Rotas de recursos para os seus CRUDs
     Route::resource('drivers', DriverController::class);
     Route::resource('vehicles', VehicleController::class);
     Route::resource('trips', TripController::class);

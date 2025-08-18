@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/UserController.php
 
 namespace App\Http\Controllers;
 
@@ -10,43 +9,37 @@ use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = User::latest()->paginate(10);
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        $temporaryPassword = 'Temp@' . rand(1000, 9999);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($temporaryPassword),
+            'must_change_password' => true,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso.');
+        return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso. Senha temporária: ' . $temporaryPassword);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
         ]);
 
         $user->update([
@@ -54,20 +47,16 @@ class UserController extends Controller
             'email' => $request->email,
         ]);
 
-        // Opcional: Atualizar a senha apenas se for fornecida
         if ($request->filled('password')) {
-            $request->validate([
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            $user->update([
+                'password' => Hash::make($request->password),
+                'must_change_password' => false
             ]);
-            $user->update(['password' => Hash::make($request->password)]);
         }
 
         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         $user->delete();
