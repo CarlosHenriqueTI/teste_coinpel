@@ -1,5 +1,5 @@
 {{-- resources/views/layouts/sidebar.blade.php --}}
-<div class="d-flex flex-column flex-shrink-0 p-3 vh-100" style="width: 200px; background-color: #593E75;">
+<div class="d-flex flex-column flex-shrink-0 p-3 vh-100" style="width: 200px; background-color: #593E75; overflow: visible !important;">
     {{-- Logo --}}
     <a href="{{ route('dashboard') }}" class="d-flex justify-content-center align-items-center mb-3 p-2 text-white text-decoration-none">
         {{-- Usamos um filtro CSS para tornar o logo original branco, uma solução flexível --}}
@@ -7,7 +7,7 @@
     </a>
     
     {{-- Lista de links de navegação --}}
-    <ul class="nav nav-pills flex-column mb-auto mt-3">
+    <ul class="nav nav-pills flex-column mb-auto mt-3" style="overflow: visible !important;">
         @php
             // Array para simplificar a criação dos links da sidebar
             $navLinks = [
