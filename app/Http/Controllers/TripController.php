@@ -9,9 +9,39 @@ use Illuminate\Http\Request;
 
 class TripController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::with(['driver', 'vehicle'])->latest()->paginate(10);
+        $query = Trip::with(['driver', 'vehicle']);
+
+        // Implementar pesquisa flexível
+        if ($search = $request->get('search')) {
+            // Normalizar string de pesquisa (remover acentos e converter para minúsculas)
+            $normalizedSearch = $this->normalizeString($search);
+            
+            $query->where(function($q) use ($search, $normalizedSearch) {
+                // Pesquisa em campos da própria trip
+                $q->whereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(origin, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%'])
+                  ->orWhereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(destination, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%'])
+                  
+                  // Pesquisa no nome do motorista
+                  ->orWhereHas('driver', function($driverQuery) use ($search, $normalizedSearch) {
+                      $driverQuery->whereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(name, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%']);
+                  })
+                  
+                  // Pesquisa no modelo, marca ou placa do veículo
+                  ->orWhereHas('vehicle', function($vehicleQuery) use ($search, $normalizedSearch) {
+                      $vehicleQuery->whereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(model, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%'])
+                                ->orWhereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(brand, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%'])
+                                ->orWhereRaw('LOWER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(plate, "á", "a"), "à", "a"), "ã", "a"), "â", "a"), "é", "e"), "ê", "e"), "í", "i"), "ó", "o"), "ô", "o"), "ú", "u")) LIKE ?', ['%' . $normalizedSearch . '%']);
+                  });
+            });
+        }
+
+        $trips = $query->latest('departure_time')->paginate(10);
+        
+        // Preservar parâmetros de pesquisa na paginação
+        $trips->appends($request->query());
+
         return view('trips.index', compact('trips'));
     }
 
@@ -32,6 +62,18 @@ class TripController extends Controller
         Trip::create($validated);
 
         return redirect()->route('trips.index')->with('success', 'Viagem cadastrada com sucesso.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Trip $trip)
+    {
+        $trip->load(['driver', 'vehicle']);
+        $drivers = Driver::all();
+        $vehicles = Vehicle::all();
+        
+        return view('trips.show', compact('trip', 'drivers', 'vehicles'));
     }
 
     /**
@@ -61,5 +103,22 @@ class TripController extends Controller
         $trip->delete();
 
         return redirect()->route('trips.index')->with('success', 'Viagem excluída com sucesso.');
+    }
+
+    /**
+     * Normaliza string removendo acentos e convertendo para minúsculas
+     */
+    private function normalizeString($string)
+    {
+        $string = strtolower($string);
+        $unwanted_array = array(
+            'á'=>'a', 'à'=>'a', 'ã'=>'a', 'â'=>'a', 'ä'=>'a',
+            'é'=>'e', 'è'=>'e', 'ê'=>'e', 'ë'=>'e',
+            'í'=>'i', 'ì'=>'i', 'î'=>'i', 'ï'=>'i',
+            'ó'=>'o', 'ò'=>'o', 'õ'=>'o', 'ô'=>'o', 'ö'=>'o',
+            'ú'=>'u', 'ù'=>'u', 'û'=>'u', 'ü'=>'u',
+            'ç'=>'c', 'ñ'=>'n'
+        );
+        return strtr($string, $unwanted_array);
     }
 }
