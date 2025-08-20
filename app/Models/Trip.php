@@ -16,7 +16,16 @@ class Trip extends Model {
         'status',
         'price',
         'category',
-        'passenger_count'
+        'passenger_count',
+        'trip_name',
+        'rule',
+        'trip_date',
+        'ticket_price',
+        'driver_registration'
+    ];
+
+    protected $attributes = [
+        'status' => 'in_progress',
     ];
 
     public function driver(): BelongsTo {

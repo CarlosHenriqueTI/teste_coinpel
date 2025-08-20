@@ -48,29 +48,55 @@
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td class="ps-4" style="padding: 1rem 0;">
                         @php
-                            $now = now();
-                            $departure = \Carbon\Carbon::parse($trip->departure_time);
-                            $arrival = \Carbon\Carbon::parse($trip->arrival_time);
-                            
-                            if ($now < $departure) {
-                                $status = 'Em andamento';
-                                $statusColor = '#f59e0b';
-                                $bgColor = '#fef3c7';
-                            } elseif ($now >= $departure && $now <= $arrival) {
-                                $status = 'Em andamento';
-                                $statusColor = '#f59e0b';
-                                $bgColor = '#fef3c7';
+                            // Usa o status definido na viagem ou calcula baseado no tempo se não definido
+                            if ($trip->status) {
+                                switch($trip->status) {
+                                    case 'in_progress':
+                                        $status = 'Em andamento';
+                                        $statusColor = '#f59e0b';
+                                        $bgColor = '#fef3c7';
+                                        break;
+                                    case 'completed':
+                                        $status = 'Concluída';
+                                        $statusColor = '#10b981';
+                                        $bgColor = '#d1fae5';
+                                        break;
+                                    case 'cancelled':
+                                        $status = 'Cancelada';
+                                        $statusColor = '#ef4444';
+                                        $bgColor = '#fee2e2';
+                                        break;
+                                    default:
+                                        $status = 'Em andamento';
+                                        $statusColor = '#f59e0b';
+                                        $bgColor = '#fef3c7';
+                                }
                             } else {
-                                $status = 'Completa';
-                                $statusColor = '#10b981';
-                                $bgColor = '#d1fae5';
+                                // Fallback para calcular baseado no tempo se status não estiver definido
+                                $now = now();
+                                $departure = \Carbon\Carbon::parse($trip->departure_time);
+                                $arrival = \Carbon\Carbon::parse($trip->arrival_time);
+                                
+                                if ($now < $departure) {
+                                    $status = 'Em andamento';
+                                    $statusColor = '#f59e0b';
+                                    $bgColor = '#fef3c7';
+                                } elseif ($now >= $departure && $now <= $arrival) {
+                                    $status = 'Em andamento';
+                                    $statusColor = '#f59e0b';
+                                    $bgColor = '#fef3c7';
+                                } else {
+                                    $status = 'Concluída';
+                                    $statusColor = '#10b981';
+                                    $bgColor = '#d1fae5';
+                                }
                             }
                         @endphp
                         <span style="background-color: {{ $bgColor }}; color: {{ $statusColor }}; padding: 0.25rem 0.75rem; border-radius: 16px; font-size: 12px; font-weight: 500;">
                             {{ $status }}
                         </span>
                     </td>
-                    <td style="padding: 1rem 0; font-size: 14px; color: #374151;">{{ $trip->driver->name ?? 'N/A' }}</td>
+                    <td style="padding: 1rem 0; font-size: 14px; color: #374151;">{{ $trip->trip_name ?? 'Viagem sem nome' }}</td>
                     <td style="padding: 1rem 0; font-size: 14px; color: #6b7280;">{{ \Carbon\Carbon::parse($trip->departure_time)->format('d/m/Y') }}</td>
                     <td style="padding: 1rem 0; font-size: 14px; color: #6b7280;">{{ \Carbon\Carbon::parse($trip->departure_time)->format('H:i') }}</td>
                     <td style="padding: 1rem 0;">
@@ -148,13 +174,23 @@
                 <i class="bi bi-trash" style="font-size: 14px;"></i>
             </button>
         </div>
-        <div class="offcanvas-body" style="padding: 2rem 1.5rem;">
+        <div class="offcanvas-body" style="padding: 0.75rem 1.5rem;">
             <form action="{{ route('trips.store') }}" method="POST">
                 @csrf
-                <div class="mb-4">
-                    <label for="driver_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Motorista:</label>
+                <div class="mb-1">
+                    <label for="trip_name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Nome da viagem:</label>
+                    <input type="text" class="form-control @error('trip_name') is-invalid @enderror" id="trip_name" name="trip_name" value="{{ old('trip_name') }}" required 
+                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
+                           placeholder="Digite o nome da viagem">
+                    @error('trip_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-1">
+                    <label for="driver_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Motorista:</label>
                     <select class="form-select @error('driver_id') is-invalid @enderror" id="driver_id" name="driver_id" required 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;">
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
                         <option value="">Selecione um motorista</option>
                         @foreach(\App\Models\Driver::all() as $driver)
                             <option value="{{ $driver->id }}" {{ old('driver_id') == $driver->id ? 'selected' : '' }}>
@@ -167,10 +203,10 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="vehicle_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Veículo:</label>
+                <div class="mb-1">
+                    <label for="vehicle_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Veículo:</label>
                     <select class="form-select @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" required 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;">
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
                         <option value="">Selecione um veículo</option>
                         @foreach(\App\Models\Vehicle::all() as $vehicle)
                             <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
@@ -183,39 +219,39 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="origin" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Origem:</label>
+                <div class="mb-1">
+                    <label for="origin" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Origem:</label>
                     <input type="text" class="form-control @error('origin') is-invalid @enderror" id="origin" name="origin" value="{{ old('origin') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
                            placeholder="Digite a origem">
                     @error('origin')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="destination" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Destino:</label>
+                <div class="mb-1">
+                    <label for="destination" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Destino:</label>
                     <input type="text" class="form-control @error('destination') is-invalid @enderror" id="destination" name="destination" value="{{ old('destination') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
                            placeholder="Digite o destino">
                     @error('destination')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="departure_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Data e Hora de Partida:</label>
+                <div class="mb-1">
+                    <label for="departure_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Partida:</label>
                     <input type="datetime-local" class="form-control @error('departure_time') is-invalid @enderror" id="departure_time" name="departure_time" value="{{ old('departure_time') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;">
+                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
                     @error('departure_time')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="arrival_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Data e Hora de Chegada:</label>
+                <div class="mb-1">
+                    <label for="arrival_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Chegada:</label>
                     <input type="datetime-local" class="form-control @error('arrival_time') is-invalid @enderror" id="arrival_time" name="arrival_time" value="{{ old('arrival_time') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;">
+                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
                     @error('arrival_time')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -225,12 +261,12 @@
                 <div style="flex-grow: 1;"></div>
                 
                 {{-- Botões no final do modal --}}
-                <div class="d-grid gap-2" style="margin-top: auto; padding-top: 2rem;">
-                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.875rem; font-size: 14px;">
+                <div class="d-grid gap-2" style="margin-top: auto; padding-top: 0.25rem;">
+                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.625rem; font-size: 14px;">
                         Finalizar cadastro
                     </button>
                     <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.875rem; font-size: 14px; color: #4a5568;">
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.625rem; font-size: 14px; color: #4a5568;">
                         Cancelar
                     </button>
                 </div>
@@ -244,7 +280,8 @@
         #offcanvasTrip .offcanvas-body {
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 80px);
+            padding: 0.75rem 1.5rem 0.25rem 1.5rem !important;
         }
         
         #offcanvasTrip .offcanvas-body form {

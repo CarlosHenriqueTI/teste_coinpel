@@ -51,6 +51,7 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'trip_name' => 'required|string|max:255',
             'driver_id' => 'required|exists:drivers,id',
             'vehicle_id' => 'required|exists:vehicles,id',
             'origin' => 'required|string|max:255',
@@ -58,6 +59,9 @@ class TripController extends Controller
             'departure_time' => 'required|date',
             'arrival_time' => 'required|date|after_or_equal:departure_time',
         ]);
+
+        // Adiciona status padrão se não fornecido
+        $validated['status'] = 'in_progress';
 
         Trip::create($validated);
 
@@ -82,13 +86,24 @@ class TripController extends Controller
     public function update(Request $request, Trip $trip)
     {
         $validated = $request->validate([
-            'driver_id' => 'required|exists:drivers,id',
-            'vehicle_id' => 'required|exists:vehicles,id',
+            'trip_name' => 'nullable|string|max:255',
+            'rule' => 'nullable|string|max:255',
+            'trip_date' => 'nullable|date',
+            'departure_time' => 'nullable',
             'origin' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
-            'departure_time' => 'required|date',
-            'arrival_time' => 'required|date|after_or_equal:departure_time',
+            'ticket_price' => 'nullable|string|max:255',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
+            'passenger_count' => 'nullable|integer|min:1',
+            'driver_id' => 'nullable|exists:drivers,id',
+            'driver_registration' => 'nullable|string|max:255',
+            'status' => 'nullable|in:in_progress,completed,cancelled',
         ]);
+
+        // Combinar data e hora se ambos estiverem presentes
+        if ($request->trip_date && $request->departure_time) {
+            $validated['departure_time'] = $request->trip_date . ' ' . $request->departure_time;
+        }
 
         $trip->update($validated);
 
