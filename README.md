@@ -1,61 +1,214 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚌 Coinpel Trips
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12.24.0-red?style=for-the-badge&logo=laravel" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.3.16-blue?style=for-the-badge&logo=php" alt="PHP">
+  <img src="https://img.shields.io/badge/PostgreSQL-17.6-blue?style=for-the-badge&logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-purple?style=for-the-badge&logo=bootstrap" alt="Bootstrap">
 </p>
 
-## About Laravel
+Sistema de gerenciamento de viagens para a empresa Coinpel, desenvolvido em Laravel com interface moderna e responsiva.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Sobre o Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O **Coinpel Trips** é um sistema completo para gerenciamento de viagens corporativas que permite:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 👥 **Gestão de Usuários** - Cadastro e controle de acesso
+- 🚗 **Gestão de Veículos** - Controle completo da frota com características detalhadas
+- 👨‍✈️ **Gestão de Motoristas** - Cadastro e controle dos condutores
+- 🎫 **Gestão de Viagens** - Criação, edição e controle de viagens
+- 📊 **Dashboard Intuitivo** - Interface amigável para visualização de dados
 
-## Learning Laravel
+## 🛠️ Tecnologias Utilizadas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Backend
+- **[Laravel 12.24.0](https://laravel.com)** - Framework PHP moderno
+- **[PHP 8.3.16](https://php.net)** - Linguagem de programação
+- **[PostgreSQL 17.6](https://postgresql.org)** - Banco de dados relacional
+- **[Eloquent ORM](https://laravel.com/docs/eloquent)** - Mapeamento objeto-relacional
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Frontend
+- **[Bootstrap 5.3](https://getbootstrap.com)** - Framework CSS responsivo
+- **[Blade Templates](https://laravel.com/docs/blade)** - Engine de templates do Laravel
+- **[Vite](https://vitejs.dev)** - Bundler moderno para assets
+- **JavaScript ES6+** - Interatividade frontend
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Ferramentas de Desenvolvimento
+- **[Composer](https://getcomposer.org)** - Gerenciador de dependências PHP
+- **[NPM](https://npmjs.com)** - Gerenciador de pacotes Node.js
+- **[Git](https://git-scm.com)** - Controle de versão
+- **[Laragon](https://laragon.org)** - Ambiente de desenvolvimento local
 
-## Laravel Sponsors
+## 📦 Pré-requisitos
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Antes de executar o projeto, certifique-se de ter instalado:
 
-### Premium Partners
+- **PHP >= 8.2** com extensões:
+  - `pdo_pgsql`
+  - `pgsql`
+  - `mbstring`
+  - `openssl`
+  - `tokenizer`
+  - `xml`
+  - `ctype`
+  - `json`
+- **PostgreSQL >= 15**
+- **Composer**
+- **Node.js >= 18**
+- **Git**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Instalação e Configuração
 
-## Contributing
+### 1. Clone o repositório
+```bash
+git clone https://github.com/CarlosHenriqueTI/teste_coinpel.git
+cd teste_coinpel
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Instale as dependências PHP
+```bash
+composer install
+```
 
-## Code of Conduct
+### 3. Instale as dependências Node.js
+```bash
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Configure o ambiente
+```bash
+# Copie o arquivo de exemplo
+cp .env.example .env
 
-## Security Vulnerabilities
+# Gere a chave da aplicação
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Configure o banco de dados
+Edite o arquivo `.env` com suas configurações de banco:
 
-## License
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=coinpel_db
+DB_USERNAME=postgres
+DB_PASSWORD=sua_senha
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 6. Execute as migrações e seeders
+```bash
+# Criar e configurar o banco
+php artisan migrate
+
+# Popular com dados de exemplo
+php artisan db:seed
+```
+
+### 7. Compile os assets
+```bash
+# Para desenvolvimento
+npm run dev
+
+# Para produção
+npm run build
+```
+
+### 8. Inicie o servidor
+```bash
+php artisan serve
+```
+
+Acesse: **http://127.0.0.1:8000**
+
+## 🔐 Credenciais de Acesso
+
+### Usuário de Teste
+- **Email:** `test@example.com`
+- **Senha:** `password`
+
+## 📁 Estrutura do Projeto
+
+```
+coinpel-trips/
+├── app/
+│   ├── Http/Controllers/     # Controladores
+│   ├── Models/              # Modelos Eloquent
+│   └── Providers/           # Provedores de serviço
+├── database/
+│   ├── migrations/          # Migrações do banco
+│   ├── seeders/            # Seeders para popular dados
+│   └── factories/          # Factories para testes
+├── resources/
+│   ├── views/              # Templates Blade
+│   ├── js/                 # JavaScript
+│   └── scss/               # Arquivos SCSS
+├── routes/
+│   ├── web.php             # Rotas web
+│   └── auth.php            # Rotas de autenticação
+└── public/                 # Arquivos públicos
+```
+
+## 🔧 Comandos Úteis
+
+```bash
+# Limpar caches
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+
+# Executar migrações
+php artisan migrate
+php artisan migrate:rollback
+
+# Executar seeders
+php artisan db:seed
+php artisan db:seed --class=TripSeeder
+
+# Compilar assets
+npm run dev          # Desenvolvimento
+npm run watch        # Watch mode
+npm run build        # Produção
+```
+
+## 📊 Funcionalidades Principais
+
+### Gestão de Veículos
+- Cadastro completo com modelo, marca, ano
+- Controle de características (ar-condicionado, GPS, etc.)
+- Status de disponibilidade
+
+### Gestão de Viagens
+- Criação de viagens com origem e destino
+- Atribuição de motorista e veículo
+- Controle de status e preços
+- Data e hora de saída/chegada
+
+### Dashboard
+- Visão geral do sistema
+- Estatísticas importantes
+- Interface responsiva
+
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👨‍💻 Autor
+
+**Carlos Henrique**
+- GitHub: [@CarlosHenriqueTI](https://github.com/CarlosHenriqueTI)
+- Email: carloshenriqueti09@gmail.com
+
+---
+
+<p align="center">
+  Desenvolvido com ❤️ para a Coinpel
+</p>
