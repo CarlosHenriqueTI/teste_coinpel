@@ -89,8 +89,8 @@
             </nav>
 
             {{-- Área de Conteúdo Principal --}}
-            <main style="overflow: visible !important;">
-                <div class="w-100" style="overflow: visible !important; margin: 0; padding: 0;">
+            <main class="main-container">
+                <div class="w-100" style="margin: 0; padding: 0;">
                     {{ $slot }}
                 </div>
             </main>
@@ -158,41 +158,61 @@
         overflow: visible !important;
     }
     
-    /* Remove scrollbars globalmente */
-    .container-fluid {
+    /* Remove scrollbars globalmente apenas em elementos específicos */
+    .container-fluid.no-scroll {
         overflow-x: hidden;
     }
     
-    /* Garante que tabelas não criem overflow */
+    /* Garante que tabelas não criem overflow horizontal */
     table {
         table-layout: auto;
         width: 100%;
     }
     
-    /* Remove TODAS as barras de rolagem */
+    /* Permite scroll vertical quando necessário */
     html, body {
-        overflow: hidden !important;
+        overflow-x: hidden;
+        overflow-y: auto;
         height: 100vh;
     }
     
-    /* Remove scrollbars de todos os elementos */
-    * {
+    /* Remove scrollbars apenas de elementos específicos que não precisam */
+    .no-scrollbar {
         scrollbar-width: none !important; /* Firefox */
         -ms-overflow-style: none !important; /* IE and Edge */
     }
     
-    *::-webkit-scrollbar {
+    .no-scrollbar::-webkit-scrollbar {
         display: none !important; /* Chrome, Safari and Opera */
     }
     
-    /* Força todos os containers a não ter overflow */
-    .container, .container-fluid, .row, .col, .table-responsive, div {
-        overflow: visible !important;
+    /* Força containers principais a gerenciar overflow corretamente */
+    .main-container {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: calc(100vh - 80px);
     }
     
-    /* Remove overflow do main e suas divs filhas */
-    main, main > *, main > * > * {
-        overflow: visible !important;
+    /* Permite scroll em áreas específicas quando necessário */
+    .scrollable-area {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        max-height: calc(100vh - 120px);
+    }
+    
+    /* Estilo específico para modais e offcanvas */
+    .offcanvas-body.scrollable {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Permite scroll na página de detalhes */
+    .trip-details-page {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: calc(100vh - 80px) !important;
+        max-height: calc(100vh - 80px) !important;
+        min-height: auto !important;
     }
     
     /* Utiliza todo o espaço disponível */

@@ -177,98 +177,99 @@
         <div class="offcanvas-body" style="padding: 0.75rem 1.5rem;">
             <form action="{{ route('trips.store') }}" method="POST">
                 @csrf
-                <div class="mb-1">
-                    <label for="trip_name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Nome da viagem:</label>
-                    <input type="text" class="form-control @error('trip_name') is-invalid @enderror" id="trip_name" name="trip_name" value="{{ old('trip_name') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
-                           placeholder="Digite o nome da viagem">
-                    @error('trip_name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <div class="form-fields-container">
+                    <div class="mb-1">
+                        <label for="trip_name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Nome da viagem:</label>
+                        <input type="text" class="form-control @error('trip_name') is-invalid @enderror" id="trip_name" name="trip_name" value="{{ old('trip_name') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
+                               placeholder="Digite o nome da viagem">
+                        @error('trip_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="driver_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Motorista:</label>
-                    <select class="form-select @error('driver_id') is-invalid @enderror" id="driver_id" name="driver_id" required 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
-                        <option value="">Selecione um motorista</option>
-                        @foreach(\App\Models\Driver::all() as $driver)
-                            <option value="{{ $driver->id }}" {{ old('driver_id') == $driver->id ? 'selected' : '' }}>
-                                {{ $driver->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('driver_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div class="mb-1">
+                        <label for="driver_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Motorista:</label>
+                        <select class="form-select @error('driver_id') is-invalid @enderror" id="driver_id" name="driver_id" required 
+                                style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
+                            <option value="">Selecione um motorista</option>
+                            @foreach(\App\Models\Driver::all() as $driver)
+                                <option value="{{ $driver->id }}" {{ old('driver_id') == $driver->id ? 'selected' : '' }}>
+                                    {{ $driver->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('driver_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="vehicle_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Veículo:</label>
-                    <select class="form-select @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" required 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
-                        <option value="">Selecione um veículo</option>
-                        @foreach(\App\Models\Vehicle::all() as $vehicle)
-                            <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
-                                {{ $vehicle->model }} {{ $vehicle->brand }} - {{ $vehicle->plate }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('vehicle_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div class="mb-1">
+                        <label for="vehicle_id" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Veículo:</label>
+                        <select class="form-select @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" required 
+                                style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
+                            <option value="">Selecione um veículo</option>
+                            @foreach(\App\Models\Vehicle::all() as $vehicle)
+                                <option value="{{ $vehicle->id }}" {{ old('vehicle_id') == $vehicle->id ? 'selected' : '' }}>
+                                    {{ $vehicle->model }} {{ $vehicle->brand }} - {{ $vehicle->plate }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('vehicle_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="origin" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Origem:</label>
-                    <input type="text" class="form-control @error('origin') is-invalid @enderror" id="origin" name="origin" value="{{ old('origin') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
-                           placeholder="Digite a origem">
-                    @error('origin')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div class="mb-1">
+                        <label for="origin" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Origem:</label>
+                        <input type="text" class="form-control @error('origin') is-invalid @enderror" id="origin" name="origin" value="{{ old('origin') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
+                               placeholder="Digite a origem">
+                        @error('origin')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="destination" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Destino:</label>
-                    <input type="text" class="form-control @error('destination') is-invalid @enderror" id="destination" name="destination" value="{{ old('destination') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
-                           placeholder="Digite o destino">
-                    @error('destination')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div class="mb-1">
+                        <label for="destination" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Destino:</label>
+                        <input type="text" class="form-control @error('destination') is-invalid @enderror" id="destination" name="destination" value="{{ old('destination') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;" 
+                               placeholder="Digite o destino">
+                        @error('destination')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="departure_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Partida:</label>
-                    <input type="datetime-local" class="form-control @error('departure_time') is-invalid @enderror" id="departure_time" name="departure_time" value="{{ old('departure_time') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
-                    @error('departure_time')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div class="mb-1">
+                        <label for="departure_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Partida:</label>
+                        <input type="datetime-local" class="form-control @error('departure_time') is-invalid @enderror" id="departure_time" name="departure_time" value="{{ old('departure_time') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
+                        @error('departure_time')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="mb-1">
-                    <label for="arrival_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Chegada:</label>
-                    <input type="datetime-local" class="form-control @error('arrival_time') is-invalid @enderror" id="arrival_time" name="arrival_time" value="{{ old('arrival_time') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
-                    @error('arrival_time')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <div class="mb-1">
+                        <label for="arrival_time" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.125rem;">Data e Hora de Chegada:</label>
+                        <input type="datetime-local" class="form-control @error('arrival_time') is-invalid @enderror" id="arrival_time" name="arrival_time" value="{{ old('arrival_time') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem; font-size: 14px;">
+                        @error('arrival_time')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-                
-                {{-- Espaço flexível para empurrar os botões para o final --}}
-                <div style="flex-grow: 1;"></div>
                 
                 {{-- Botões no final do modal --}}
-                <div class="d-grid gap-2" style="margin-top: auto; padding-top: 0.25rem;">
-                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.625rem; font-size: 14px;">
-                        Finalizar cadastro
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.625rem; font-size: 14px; color: #4a5568;">
-                        Cancelar
-                    </button>
+                <div class="form-buttons-container">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.625rem; font-size: 14px;">
+                            Finalizar cadastro
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
+                                style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.625rem; font-size: 14px; color: #4a5568;">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -281,13 +282,29 @@
             display: flex;
             flex-direction: column;
             height: calc(100vh - 80px);
-            padding: 0.75rem 1.5rem 0.25rem 1.5rem !important;
+            padding: 0.75rem 1.5rem 1rem 1.5rem !important;
+            overflow-y: auto;
         }
         
         #offcanvasTrip .offcanvas-body form {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        /* Container de campos do formulário */
+        #offcanvasTrip .form-fields-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Container de botões fixo */
+        #offcanvasTrip .form-buttons-container {
+            flex-shrink: 0;
+            margin-top: auto;
         }
         
         /* Hover effect para os inputs */

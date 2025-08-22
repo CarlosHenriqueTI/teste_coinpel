@@ -108,43 +108,44 @@
         <div class="offcanvas-body" style="padding: 2rem 1.5rem;">
             <form action="{{ route('users.store') }}" method="POST">
                 @csrf
-                <div class="mb-4">
-                    <label for="name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nome completo:</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
-                           placeholder="Digite o nome completo">
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="form-fields-container">
+                    <div class="mb-4">
+                        <label for="name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nome completo:</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                               placeholder="Digite o nome completo">
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">E-mail:</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                               placeholder="Digite o e-mail">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Senha provisória:</label>
+                        <input type="password" class="form-control" id="password" name="password" value="••••••••••" readonly 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px; background-color: #f7fafc;">
+                        <small class="text-muted" style="font-size: 12px; color: #a0aec0;">Uma senha temporária será gerada automaticamente</small>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label for="email" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">E-mail:</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
-                           placeholder="Digite o e-mail">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Senha provisória:</label>
-                    <input type="password" class="form-control" id="password" name="password" value="••••••••••" readonly 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px; background-color: #f7fafc;">
-                    <small class="text-muted" style="font-size: 12px; color: #a0aec0;">Uma senha temporária será gerada automaticamente</small>
-                </div>
-                
-                <!-- Espaço flexível para empurrar os botões para o final -->
-                <div style="flex-grow: 1;"></div>
                 
                 <!-- Botões no final do modal -->
-                <div class="d-grid gap-2" style="margin-top: auto; padding-top: 2rem;">
-                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.875rem; font-size: 14px;">
-                        Finalizar cadastro
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.875rem; font-size: 14px; color: #4a5568;">
-                        Cancelar
-                    </button>
+                <div class="form-buttons-container">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.875rem; font-size: 14px;">
+                            Finalizar cadastro
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
+                                style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.875rem; font-size: 14px; color: #4a5568;">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -162,47 +163,48 @@
             <form id="editUserForm" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="mb-4">
-                    <label for="edit_name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nome completo:</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="edit_name" name="name" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
-                           placeholder="Digite o nome completo">
-                    @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="form-fields-container">
+                    <div class="mb-4">
+                        <label for="edit_name" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nome completo:</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="edit_name" name="name" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                               placeholder="Digite o nome completo">
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_email" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">E-mail:</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="edit_email" name="email" required 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                               placeholder="Digite o e-mail">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_password" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nova senha (opcional):</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="edit_password" name="password" 
+                               style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
+                               placeholder="Digite a nova senha">
+                        <small class="text-muted" style="font-size: 12px; color: #a0aec0;">Deixe em branco para manter a senha atual</small>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label for="edit_email" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">E-mail:</label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="edit_email" name="email" required 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
-                           placeholder="Digite o e-mail">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="edit_password" class="form-label" style="color: #718096; font-size: 14px; margin-bottom: 0.5rem;">Nova senha (opcional):</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="edit_password" name="password" 
-                           style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 14px;" 
-                           placeholder="Digite a nova senha">
-                    <small class="text-muted" style="font-size: 12px; color: #a0aec0;">Deixe em branco para manter a senha atual</small>
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                
-                <!-- Espaço flexível para empurrar os botões para o final -->
-                <div style="flex-grow: 1;"></div>
                 
                 <!-- Botões no final do modal -->
-                <div class="d-grid gap-2" style="margin-top: auto; padding-top: 2rem;">
-                    <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.875rem; font-size: 14px;">
-                        Atualizar usuário
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.875rem; font-size: 14px; color: #4a5568;">
-                        Cancelar
-                    </button>
+                <div class="form-buttons-container">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn text-white fw-semibold" style="background-color: #593E75; border: none; border-radius: 8px; padding: 0.875rem; font-size: 14px;">
+                            Atualizar usuário
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary fw-semibold" data-bs-dismiss="offcanvas" 
+                                style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.875rem; font-size: 14px; color: #4a5568;">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -216,13 +218,32 @@
             display: flex;
             flex-direction: column;
             height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding: 1rem 1.5rem !important;
         }
         
         #offcanvasUser .offcanvas-body form,
         #offcanvasEditUser .offcanvas-body form {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex: 1;
+            min-height: 0;
+        }
+        
+        /* Container de campos do formulário */
+        #offcanvasUser .form-fields-container,
+        #offcanvasEditUser .form-fields-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Container de botões fixo */
+        #offcanvasUser .form-buttons-container,
+        #offcanvasEditUser .form-buttons-container {
+            flex-shrink: 0;
+            margin-top: auto;
         }
         
         /* Hover effect para os inputs */

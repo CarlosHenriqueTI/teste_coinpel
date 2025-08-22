@@ -58,30 +58,37 @@
             <h5 class="offcanvas-title" id="offcanvasDriverTitle">Adicionar Novo Motorista</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body scrollable-area">
             <form id="driverForm" action="{{ route('drivers.store') }}" method="POST">
                 @csrf
                 <input type="hidden" id="driverMethod" name="_method" value="">
                 <input type="hidden" id="driverId" name="driver_id" value="">
                 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nome Completo</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                           id="name" name="name" value="{{ old('name') }}" required>
-                    @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <div class="form-fields-container">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                               id="name" name="name" value="{{ old('name') }}" required>
+                        @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control @error('cpf') is-invalid @enderror" 
+                               id="cpf" name="cpf" value="{{ old('cpf') }}" required>
+                        @error('cpf')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="cpf" class="form-label">CPF</label>
-                    <input type="text" class="form-control @error('cpf') is-invalid @enderror" 
-                           id="cpf" name="cpf" value="{{ old('cpf') }}" required>
-                    @error('cpf')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                
+                <div class="form-buttons-container">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn text-white" style="background-color: #593E75;">
+                            Salvar
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
-                <button type="submit" class="btn text-white" style="background-color: #593E75;">
-                    Salvar
-                </button>
-                <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="offcanvas">
-                    Cancelar
-                </button>
             </form>
         </div>
     </div>
