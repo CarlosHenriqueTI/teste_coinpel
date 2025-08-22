@@ -8,64 +8,89 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-light">
-    <div class="d-flex">
+    <div class="d-flex" style="overflow: visible !important; height: 100vh;">
         @include('layouts.sidebar')
 
-        <div class="w-100">
+        <div class="w-100" style="overflow: visible !important;">
             {{-- A estrutura da barra de navegação --}}
-            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom py-3">
-                <div class="container-fluid px-4">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" style="padding: 1rem 0;">
+                <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
                     {{-- Esta é a área que será preenchida pelos botões de cada página --}}
-                    @yield('header-actions')
+                    <div style="padding-left: 1.5rem;">
+                        @yield('header-actions')
+                    </div>
 
-                    <div class="d-flex align-items-center ms-auto">
+                    <div class="d-flex align-items-center ms-auto" style="padding-right: 1.5rem;">
                         {{-- Formulário de Pesquisa --}}
-                        <form class="d-flex" role="search">
-                            <div class="input-group">
-                                <input class="form-control" type="search" placeholder="Pesquisar..." aria-label="Search">
-                                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                        <form class="d-flex me-4" role="search" method="GET" action="{{ request()->url() }}">
+                            <div class="input-group" style="width: 300px;">
+                                @php
+                                    $searchPlaceholder = 'Pesquisar';
+                                    if (request()->routeIs('users.*')) {
+                                        $searchPlaceholder = 'Pesquisar usuário';
+                                    } elseif (request()->routeIs('trips.*')) {
+                                        $searchPlaceholder = 'Pesquisar viagem';
+                                    } elseif (request()->routeIs('drivers.*')) {
+                                        $searchPlaceholder = 'Pesquisar motorista';
+                                    } elseif (request()->routeIs('vehicles.*')) {
+                                        $searchPlaceholder = 'Pesquisar veículo';
+                                    }
+                                @endphp
+                                <input class="form-control" type="search" name="search" placeholder="{{ $searchPlaceholder }}" aria-label="Search" 
+                                       value="{{ request('search') }}"
+                                       style="border: 1px solid #e2e8f0; border-radius: 8px 0 0 8px; padding: 0.75rem 1rem; font-size: 14px; background-color: #f8f9fa;">
+                                <button class="btn" type="submit" style="background-color: #f8f9fa; border: 1px solid #e2e8f0; border-left: none; border-radius: 0 8px 8px 0; color: #718096;">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                                @if(request('search'))
+                                    <a href="{{ request()->url() }}" class="btn btn-outline-secondary ms-1" style="border-radius: 8px; padding: 0.75rem; font-size: 14px;" title="Limpar pesquisa">
+                                        <i class="bi bi-x"></i>
+                                    </a>
+                                @endif
                             </div>
                         </form>
 
-                        {{-- Ícone de Notificações --}}
-                        <ul class="navbar-nav ms-4">
-                            <li class="nav-item">
-                                <a class="nav-link position-relative" href="#">
-                                    <i class="bi bi-bell fs-5"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
-                                </a>
-                            </li>
-                        </ul>
+                        {{-- Ícone de Notificações com ponto vermelho --}}
+                        <button type="button" style="position: relative; background: none; border: none; padding: 8px; margin-right: 1rem; cursor: pointer;">
+                            <i class="bi bi-bell" style="font-size: 18px; color: #718096;"></i>
+                            <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: #dc3545; border-radius: 4px; display: block;"></span>
+                        </button>
 
                         {{-- Dropdown do Utilizador --}}
-                        <div class="dropdown ms-4">
-                            <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://i.pravatar.cc/40?u={{ auth()->user()->id }}" alt="" width="40" height="40" class="rounded-circle">
-                                <div class="ms-2 text-start">
-                                    <div class="fw-bold">{{ auth()->user()->name }}</div>
-                                    <div class="text-muted" style="font-size: 0.8rem;">Administrador</div>
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0.5rem;">
+                                <img src="https://i.pravatar.cc/32?u={{ auth()->user()->id }}" alt="" width="32" height="32" class="rounded-circle me-2">
+                                <div class="text-start">
+                                    <div class="fw-semibold" style="font-size: 14px; color: #2d3748;">{{ auth()->user()->name }}</div>
+                                    <div class="text-muted" style="font-size: 12px; color: #a0aec0;">Administrador</div>
                                 </div>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                                <li><a class="dropdown-item d-flex align-items-center" href="{{ route('dashboard') }}"><i class="bi bi-people me-2"></i> Usuários</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                            <i class="bi bi-box-arrow-right me-2"></i> Sair
-                                        </a>
-                                    </form>
-                                </li>
-                            </ul>
+                            
+                            <!-- Botões separados fora do dropdown tradicional -->
+                            <div class="dropdown-menu dropdown-menu-end" style="border: none; background: transparent; box-shadow: none; padding: 0; margin-top: 0.5rem;">
+                                <!-- Botão Usuários -->
+                                <a href="{{ route('users.index') }}" style="display: block; padding: 0.75rem 1rem; font-size: 14px; color: #2d3748; border-radius: 8px; background: #ffffff; border: 1px solid #e2e8f0; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-decoration: none; margin-bottom: 0.5rem; width: 160px;">
+                                    <i class="bi bi-people me-2" style="font-size: 14px; color: #718096;"></i>
+                                    Usuários
+                                </a>
+                                
+                                <!-- Botão Sair -->
+                                <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                                    @csrf
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" style="display: block; padding: 0.75rem 1rem; font-size: 14px; color: #2d3748; border-radius: 8px; background: #ffffff; border: 1px solid #e2e8f0; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-decoration: none; width: 160px;">
+                                        <i class="bi bi-box-arrow-right me-2" style="font-size: 14px; color: #718096;"></i>
+                                        Sair
+                                    </a>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </nav>
 
             {{-- Área de Conteúdo Principal --}}
-            <main>
-                <div class="container-fluid px-0">
+            <main style="overflow: visible !important;">
+                <div class="w-100" style="overflow: visible !important; margin: 0; padding: 0;">
                     {{ $slot }}
                 </div>
             </main>
@@ -74,5 +99,118 @@
     
     {{-- Stack de scripts personalizados --}}
     @stack('scripts')
+    
+    <style>
+    /* Estilos para os botões do dropdown como elementos independentes */
+    .dropdown-menu a {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        background: #ffffff !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #f8f9fa !important;
+        border-color: #d1d5db !important;
+        color: #2d3748 !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .dropdown-menu a:hover i {
+        color: #593E75 !important;
+    }
+
+    /* Hover do ícone de notificação */
+    button:hover i.bi-bell {
+        color: #593E75 !important;
+    }
+
+    /* Campo de pesquisa */
+    .form-control:focus {
+        border-color: #593E75 !important;
+        box-shadow: 0 0 0 0.2rem rgba(89, 62, 117, 0.25) !important;
+    }
+
+    /* Dropdown toggle hover */
+    .dropdown-toggle:hover {
+        background-color: #f8f9fa !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Estilos para botão de limpar pesquisa */
+    .btn-outline-secondary:hover {
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        color: white !important;
+    }
+    
+    /* Alert de pesquisa */
+    .alert-info {
+        background-color: #e7f3ff !important;
+        border-color: #b3d7ff !important;
+        color: #084c61 !important;
+    }
+    
+    /* Remove barras de rolagem desnecessárias */
+    .table-responsive {
+        overflow: visible !important;
+    }
+    
+    /* Remove scrollbars globalmente */
+    .container-fluid {
+        overflow-x: hidden;
+    }
+    
+    /* Garante que tabelas não criem overflow */
+    table {
+        table-layout: auto;
+        width: 100%;
+    }
+    
+    /* Remove TODAS as barras de rolagem */
+    html, body {
+        overflow: hidden !important;
+        height: 100vh;
+    }
+    
+    /* Remove scrollbars de todos os elementos */
+    * {
+        scrollbar-width: none !important; /* Firefox */
+        -ms-overflow-style: none !important; /* IE and Edge */
+    }
+    
+    *::-webkit-scrollbar {
+        display: none !important; /* Chrome, Safari and Opera */
+    }
+    
+    /* Força todos os containers a não ter overflow */
+    .container, .container-fluid, .row, .col, .table-responsive, div {
+        overflow: visible !important;
+    }
+    
+    /* Remove overflow do main e suas divs filhas */
+    main, main > *, main > * > * {
+        overflow: visible !important;
+    }
+    
+    /* Utiliza todo o espaço disponível */
+    .table {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Remove margens e paddings desnecessários */
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Garante uso completo da largura */
+    .w-100 {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    </style>
 </body>
 </html>

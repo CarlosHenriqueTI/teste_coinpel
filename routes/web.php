@@ -32,6 +32,7 @@ Route::middleware(['auth', 'force.password.change'])->group(function () {
     Route::resource('drivers', DriverController::class);
     Route::resource('vehicles', VehicleController::class);
     Route::resource('trips', TripController::class);
+    Route::get('/trips/{trip}/details', [TripController::class, 'show'])->name('trips.details');
     Route::resource('users', UserController::class);
 });
 
